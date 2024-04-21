@@ -1,12 +1,9 @@
 'use client'
-import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import { PhotoCard } from './PhotoCard'
 import styles from './PhotoList.module.sass'
-
-interface Token {
-    accessToken: string
-}
+import { Session } from 'next-auth'
+import Spinner from './Spinner'
 
 interface Photo {
     id: string
@@ -14,16 +11,16 @@ interface Photo {
     filename: string
 }
 
-const PhotoList = ({ token }: { token: Token }) => {
-    const session = useSession()
+const PhotoList = ({ session }: { session: Session }) => {
     const [photos, setPhotos] = useState<Photo[]>([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const fetchPhotos = async () => {
             await fetch('https://photoslibrary.googleapis.com/v1/mediaItems:search', {
                 method: 'POST',
                 headers: {
-                    Authorization: `Bearer ${token.accessToken}`,
+                    Authorization: `Bearer ${session.token.accessToken}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
@@ -32,11 +29,14 @@ const PhotoList = ({ token }: { token: Token }) => {
                 }),
             })
                 .then((response) => response.json())
-                .then((photosData) => setPhotos(photosData.mediaItems))
+                .then((photosData) => {
+                    setIsLoading(false)
+                    return setPhotos(photosData.mediaItems)
+                })
         }
 
-        fetchPhotos()
-    }, [session, token.accessToken])
+        fetchPhotos().then()
+    }, [session])
 
     if (!session) {
         return null
@@ -45,13 +45,17 @@ const PhotoList = ({ token }: { token: Token }) => {
     return (
         <div className={styles.photo_list}>
             <ul className={styles.photo_list_list}>
-                {photos.map((photo) => {
-                    return (
-                        <li key={photo.id}>
-                            <PhotoCard path={photo.baseUrl} label={photo.filename} />
-                        </li>
-                    )
-                })}
+                {isLoading ? (
+                    <Spinner />
+                ) : (
+                    photos.map((photo) => {
+                        return (
+                            <li key={photo.id}>
+                                <PhotoCard path={photo.baseUrl} label={photo.filename} />
+                            </li>
+                        )
+                    })
+                )}
             </ul>
         </div>
     )

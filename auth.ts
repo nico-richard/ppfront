@@ -1,9 +1,8 @@
-import NextAuth from 'next-auth'
+import NextAuth, { DefaultSession } from 'next-auth'
 import Google from 'next-auth/providers/google'
-import fs from 'fs'
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-    secret: process.env.AUTH_SECRET,
+    secret: process.env.AUTH_SECRET || 'any random string',
     providers: [
         Google({
             authorization: {
@@ -11,7 +10,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                     prompt: 'consent',
                     access_type: 'offline',
                     response_type: 'code',
-                    scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/photoslibrary.readonly',
+                    scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/photoslibrary.readonly',
                 },
             },
         }),
@@ -20,12 +19,18 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         async jwt({ token, account, profile }) {
             if (account) {
                 token.accessToken = account.access_token
-                token.id = profile?.id
+                token.refreshToken = account.refresh_token
             }
-            console.log(process.cwd())
-
-            fs.writeFileSync(process.cwd() + 'token.json', JSON.stringify(token))
             return token
+        },
+        async session({ session, token }) {
+            return {
+                ...session,
+                token: {
+                    accessToken: token.accessToken,
+                    refreshToken: token.refreshToken,
+                },
+            }
         },
     },
 })

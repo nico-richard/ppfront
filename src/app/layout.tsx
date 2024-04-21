@@ -1,7 +1,6 @@
 import { Navbar } from '@/components/Navbar'
 import '../styles/global.sass'
 import { Header } from '@/components/Header'
-import { AuthProvider } from '@/components/AuthProvider'
 
 export const metadata = {
     title: 'Next.js',
@@ -12,13 +11,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     return (
         <html lang="en">
             <body>
-                <AuthProvider>
-                    <Header />
-                    <div className="app">
-                        <Navbar />
-                        <div className="page">{children}</div>
-                    </div>
-                </AuthProvider>
+                <Header />
+                <div className="app">
+                    <Navbar />
+                    <div className="page">{children}</div>
+                </div>
             </body>
         </html>
     )

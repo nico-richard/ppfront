@@ -1,3 +1,7 @@
-export default function Ajouter() {
-    return <h1>Ajouter</h1>
+export default async function Ajouter() {
+    return (
+        <div>
+            <h1>En construction</h1>
+        </div>
+    )
 }
