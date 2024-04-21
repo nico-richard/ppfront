@@ -1,0 +1,21 @@
+@import "../styles/colors"
+
+.navbar
+  display: flex
+  flex-direction: column
+  background-color: $black-header
+  width: 20%
+  height: 85vh
+
+.custom_link
+  padding: 20px
+  text-decoration: none
+  color: $red-primary
+  background-color: $black-header
+  font-size: 1.5rem
+  font-weight: 200
+  &:hover
+    background-color: $black-hover
+
+  &.active
+    background-color: $black-selected
