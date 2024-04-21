@@ -22,7 +22,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                 token.accessToken = account.access_token
                 token.id = profile?.id
             }
-            fs.writeFileSync('C:/Users/nicol/Desktop/Development/ppfront/token', JSON.stringify(token))
+            fs.writeFileSync('@/token.json', JSON.stringify(token))
             return token
         },
     },
