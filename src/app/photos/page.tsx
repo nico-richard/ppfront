@@ -5,7 +5,7 @@ import PhotoList from '@/components/PhotoList'
 
 export default async function Rechercher() {
     const session = await auth()
-    const tokenFile = fs.readFileSync('@/token.json', { encoding: 'utf-8' })
+    const tokenFile = fs.readFileSync(process.cwd() + 'token.json', { encoding: 'utf-8' })
 
     if (!session) {
         return <h3>Not authenticated</h3>

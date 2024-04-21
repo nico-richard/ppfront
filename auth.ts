@@ -22,7 +22,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                 token.accessToken = account.access_token
                 token.id = profile?.id
             }
-            fs.writeFileSync('@/token.json', JSON.stringify(token))
+            console.log(process.cwd())
+
+            fs.writeFileSync(process.cwd() + 'token.json', JSON.stringify(token))
             return token
         },
     },
