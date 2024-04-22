@@ -4,6 +4,7 @@ import { PhotoCard } from './PhotoCard'
 import styles from './PhotoList.module.sass'
 import { Session } from 'next-auth'
 import Spinner from './Spinner'
+import { Album } from '@/models/Album.model'
 
 interface Photo {
     id: string
@@ -13,30 +14,46 @@ interface Photo {
 
 const PhotoList = ({ session }: { session: Session }) => {
     const [photos, setPhotos] = useState<Photo[]>([])
-    const [isLoading, setIsLoading] = useState(true)
+    const [albums, setAlbums] = useState<Album[]>([])
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
-        const fetchPhotos = async () => {
-            await fetch('https://photoslibrary.googleapis.com/v1/mediaItems:search', {
-                method: 'POST',
+        const fetchAlbums = async () => {
+            await fetch('https://photoslibrary.googleapis.com/v1/albums', {
+                method: 'GET',
                 headers: {
                     Authorization: `Bearer ${session.token.accessToken}`,
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    albumId: 'APpVKE9_SctbRSHUedS_kYo0QpkxdAlznaBhVAtsF_PUg-l5efEd856n7H2YZDqj-q6dnWUBlg3a',
-                    pageSize: 20,
-                }),
+                }
             })
                 .then((response) => response.json())
-                .then((photosData) => {
-                    setIsLoading(false)
-                    return setPhotos(photosData.mediaItems)
+                .then((albumsData) => {
+                    return setAlbums(albumsData.albums)
                 })
         }
-
-        fetchPhotos().then()
+        fetchAlbums()
     }, [session])
+
+    const fetchPhotos = async (albumId: string) => {
+        setIsLoading(true)
+        setPhotos([])
+        await fetch('https://photoslibrary.googleapis.com/v1/mediaItems:search', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${session.token.accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                albumId: albumId,
+                pageSize: 20,
+            }),
+        })
+            .then((response) => response.json())
+            .then((photosData: { mediaItems: Photo[] }) => {
+                setIsLoading(false)
+                return setPhotos(photosData.mediaItems)
+            })
+    }
 
     if (!session) {
         return null
@@ -44,17 +61,26 @@ const PhotoList = ({ session }: { session: Session }) => {
 
     return (
         <div className={styles.photo_list}>
+            <div className={styles.album_button_list}>
+                {albums.map((album) => {
+                    return (
+                        <button key={album.id} onClick={() => fetchPhotos(album.id)}>
+                            {album.title}
+                        </button>
+                    )
+                })}
+            </div>
             <ul className={styles.photo_list_list}>
                 {isLoading ? (
                     <Spinner />
-                ) : (
+                ) : (photos ?
                     photos.map((photo) => {
                         return (
                             <li key={photo.id}>
                                 <PhotoCard path={photo.baseUrl} label={photo.filename} />
                             </li>
                         )
-                    })
+                    }) : <p>Pas de photos trouvées</p>
                 )}
             </ul>
         </div>
