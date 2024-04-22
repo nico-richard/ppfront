@@ -28,3 +28,15 @@ model User {
   posts         Post[]
   @@map(name: "users")
 }
+
+model Vehicle {
+  id        Int     @id @default(autoincrement())
+  brand     String
+  model     String
+  nbViews   Int
+}
+
+model View {
+  id       Int     @id @default(autoincrement())
+  name     String
+}

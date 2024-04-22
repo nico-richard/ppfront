@@ -12,7 +12,7 @@ interface Photo {
     filename: string
 }
 
-const PhotoList = ({ session }: { session: Session }) => {
+const PhotoList = ({ session, handlePhotoClick }: { session: Session; handlePhotoClick: (label: string) => void }) => {
     const [photos, setPhotos] = useState<Photo[]>([])
     const [albums, setAlbums] = useState<Album[]>([])
     const [isLoading, setIsLoading] = useState(false)
@@ -24,7 +24,7 @@ const PhotoList = ({ session }: { session: Session }) => {
                 headers: {
                     Authorization: `Bearer ${session.token.accessToken}`,
                     'Content-Type': 'application/json',
-                }
+                },
             })
                 .then((response) => response.json())
                 .then((albumsData) => {
@@ -73,14 +73,16 @@ const PhotoList = ({ session }: { session: Session }) => {
             <ul className={styles.photo_list_list}>
                 {isLoading ? (
                     <Spinner />
-                ) : (photos ?
+                ) : photos ? (
                     photos.map((photo) => {
                         return (
                             <li key={photo.id}>
-                                <PhotoCard path={photo.baseUrl} label={photo.filename} />
+                                <PhotoCard path={photo.baseUrl} label={photo.filename} handlePhotoClick={handlePhotoClick} />
                             </li>
                         )
-                    }) : <p>Pas de photos trouvées</p>
+                    })
+                ) : (
+                    <p>Pas de photos trouvées</p>
                 )}
             </ul>
         </div>
