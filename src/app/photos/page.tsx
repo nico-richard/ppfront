@@ -15,7 +15,7 @@ export default async function Photos() {
             .then(async (data) => {
                 if (data === null) {
                     await prisma.view.create({
-                        data: { name: name },
+                        data: { name: name, vehicleId: 4 },
                     })
                 } else {
                     console.log('already existing view : ' + name)

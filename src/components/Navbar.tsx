@@ -15,8 +15,8 @@ export const Navbar = () => {
             <Link className={`${styles.custom_link} ${isActive('/photos') ? styles.active : ''}`} href="/photos">
                 Photos
             </Link>
-            <Link className={`${styles.custom_link} ${isActive('/ajouter') ? styles.active : ''}`} href="/ajouter">
-                Ajouter
+            <Link className={`${styles.custom_link} ${isActive('/vehicles') ? styles.active : ''}`} href="/vehicles">
+                Véhicules
             </Link>
             <Link className={`${styles.custom_link} ${isActive('/rechercher') ? styles.active : ''}`} href="/rechercher">
                 Rechercher

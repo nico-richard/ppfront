@@ -1,0 +1,26 @@
+@import "../styles/colors"
+
+.add_vehicle_form
+    h1
+        padding-bottom: 50px
+    form
+        display: flex
+        flex-direction: column
+        gap: 10px
+        input, button
+            padding: 10px 20px
+            outline: none
+            border: none
+            border-radius: 5px
+            background-color: #bbb
+            font-size: 1rem
+        button
+            background-color: $red-primary
+            color: $black-primary
+            border: 1px solid $black-primary
+            font-weight: bold
+            &:hover
+                background-color: $black-header
+                color: $red-primary
+                border: 1px solid $red-primary
+                cursor: pointer

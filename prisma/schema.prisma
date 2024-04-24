@@ -1,38 +1,41 @@
 // schema.prisma
-// prisma migrate dev --name <name>
+// npx prisma migrate dev --name <name>
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  name     String
+  id   Int    @id @default(autoincrement())
+  name String
 }
 
 model Vehicle {
-  id        Int     @id @default(autoincrement())
-  brand     Brand   @relation(fields: [brandId], references:[id])
-  brandId   Int
-  model     String
-  equipment String
-  views     View[]
-}
-
-model Brand {
-  id        Int     @id @default(autoincrement())
-  name      String
+  id           Int      @id @default(autoincrement())
+  brand        Brand
+  model        String
+  equipment    String
+  owner        String
+  views        View[]
+  date         DateTime
+  licencePlate String
+  comment      String
 }
 
 model View {
-  id         Int       @id @default(autoincrement())
-  name       String
-  vehicle    Vehicle   @relation(fields: [vehicleId], references:[id])
-  vehicleId  Int
+  id        Int     @id @default(autoincrement())
+  name      String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+  vehicleId Int
+}
+
+enum Brand {
+  RENAULT
+  PEUGEOT
 }
