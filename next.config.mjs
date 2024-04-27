@@ -3,6 +3,9 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
+                hostname: 'localhost',
+            },
+            {
                 protocol: 'https',
                 hostname: '*.googleusercontent.com ',
             },
@@ -17,6 +20,9 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 's3-eu-west-1.amazonaws.com',
+            },
+            {
+                hostname: '127.0.0.1',
             },
         ],
     },

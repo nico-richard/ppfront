@@ -21,6 +21,9 @@ export const Navbar = () => {
             <Link className={`${styles.custom_link} ${isActive('/rechercher') ? styles.active : ''}`} href="/rechercher">
                 Rechercher
             </Link>
+            <Link className={`${styles.custom_link} ${isActive('/import') ? styles.active : ''}`} href="/import">
+                Import
+            </Link>
         </div>
     )
 }

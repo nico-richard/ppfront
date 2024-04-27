@@ -5,6 +5,7 @@ import styles from './PhotoList.module.sass'
 import { Session } from 'next-auth'
 import Spinner from './Spinner'
 import { Album } from '@/models/Album.model'
+import AlbumList from './AlbumList'
 
 interface Photo {
     id: string
@@ -55,21 +56,15 @@ const PhotoList = ({ session, handlePhotoClick }: { session: Session; handlePhot
             })
     }
 
+    const handleImportPhotoClick = () => {}
+
     if (!session) {
         return null
     }
 
     return (
         <div className={styles.photo_list}>
-            <div className={styles.album_button_list}>
-                {albums.map((album) => {
-                    return (
-                        <button key={album.id} onClick={() => fetchPhotos(album.id)}>
-                            {album.title}
-                        </button>
-                    )
-                })}
-            </div>
+            <AlbumList albums={albums} fetchPhotos={fetchPhotos} />
             <ul className={styles.photo_list_list}>
                 {isLoading ? (
                     <Spinner />
@@ -77,7 +72,13 @@ const PhotoList = ({ session, handlePhotoClick }: { session: Session; handlePhot
                     photos.map((photo) => {
                         return (
                             <li key={photo.id}>
-                                <PhotoCard path={photo.baseUrl} label={photo.filename} handlePhotoClick={handlePhotoClick} />
+                                <PhotoCard
+                                    path={photo.baseUrl}
+                                    label={photo.filename}
+                                    handlePhotoClick={handlePhotoClick}
+                                    handleImportPhotoClick={handleImportPhotoClick}
+                                    details={true}
+                                />
                             </li>
                         )
                     })
