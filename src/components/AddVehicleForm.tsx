@@ -3,8 +3,10 @@ import React, { FormEvent, useEffect, useState } from 'react'
 import styles from './AddVehicleForm.module.sass'
 import { Brand } from '@/models/Brands.model'
 import { FaSquarePlus } from 'react-icons/fa6'
+import VuesInput from './VuesInput'
+import Photo from '@/models/Photo.model'
 
-const AddVehicleForm = () => {
+const AddVehicleForm = ({ inputPhotos }: { inputPhotos: Photo[] }) => {
     const [brands, setBrands] = useState<Brand[]>([])
     const [displayAddBrand, setDisplayAddBrand] = useState<boolean>(false)
     const [newBrand, setNewBrand] = useState<string>('')
@@ -80,7 +82,8 @@ const AddVehicleForm = () => {
                 <label htmlFor="licensePlate">Plaque d&apos;immatriculation</label>
                 <input type="text" name="licensePlate" />
                 <label htmlFor="comment">Commentaires</label>
-                <input type="textarea" name="comment" />
+                <textarea name="comment" id="" rows={3}></textarea>
+                <VuesInput photos={inputPhotos} />
                 <button type="submit">Ajouter</button>
             </form>
         </div>

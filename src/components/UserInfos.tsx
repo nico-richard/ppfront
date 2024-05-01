@@ -10,7 +10,7 @@ const UserInfos = async () => {
     }
     return (
         <div className={styles.user_infos}>
-            <Image src={session.user?.image as string} width={50} height={50} alt="" style={{ borderRadius: '999px' }} />
+            <Image src={session.user?.image as string} width={30} height={30} alt="" style={{ borderRadius: '999px' }} />
             <h5>{session.user?.name}</h5>
         </div>
     )

@@ -1,5 +1,6 @@
 import React from 'react'
 import { signIn } from '@/../auth'
+import PPButton from './common/PPButton'
 
 const signInButton = () => {
     return (
@@ -9,7 +10,7 @@ const signInButton = () => {
                 await signIn('google')
             }}
         >
-            <button type="submit">Signin with Google</button>
+            <PPButton type="submit" label="Signin with Google" />
         </form>
     )
 }

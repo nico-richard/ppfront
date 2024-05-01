@@ -5,7 +5,7 @@ export default async function Vehicle() {
     return (
         <div className="vehicle_page">
             <VehicleList />
-            <AddVehicleForm />
+            <AddVehicleForm inputPhotos={[]} />
         </div>
     )
 }

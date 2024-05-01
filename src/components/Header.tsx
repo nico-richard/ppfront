@@ -16,8 +16,8 @@ export const Header = async () => {
                 alt=""
                 width={0}
                 height={0}
-                sizes="10vw"
-                style={{ width: '6%', minWidth: '100px', height: 'auto', marginLeft: '5%' }}
+                sizes="100"
+                style={{ width: '6%', minWidth: '80px', height: 'auto', marginLeft: '5%' }}
             />
             <h1>Photos pompier</h1>
             <div className={styles.sign_in_out_container}>

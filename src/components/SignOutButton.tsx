@@ -1,5 +1,6 @@
 import React from 'react'
 import { signOut } from '@/../auth'
+import PPButton from './common/PPButton'
 
 const signOutButton = () => {
     return (
@@ -9,7 +10,7 @@ const signOutButton = () => {
                 await signOut()
             }}
         >
-            <button type="submit">Sign out</button>
+            <PPButton type="submit" label="Sign out" />
         </form>
     )
 }

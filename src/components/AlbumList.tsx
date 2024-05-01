@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './AlbumList.module.sass'
 import { Album } from '@/models/Album.model'
+import PPButton from './common/PPButton'
 
 const AlbumList = ({ albums, fetchPhotos }: { albums: Album[]; fetchPhotos: (albumId: string) => void }) => {
     return (
@@ -8,9 +9,9 @@ const AlbumList = ({ albums, fetchPhotos }: { albums: Album[]; fetchPhotos: (alb
             {albums ? (
                 albums.map((album) => {
                     return (
-                        <button key={album.id} onClick={() => fetchPhotos(album.id)}>
-                            {album.title}
-                        </button>
+                        <div key={album.id}>
+                            <PPButton label={album.title} onClick={() => fetchPhotos(album.id)}></PPButton>
+                        </div>
                     )
                 })
             ) : (
