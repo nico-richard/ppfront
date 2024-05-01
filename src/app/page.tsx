@@ -1,8 +1,7 @@
-export default async function Accueil() {
+export default function Accueil() {
     return (
         <div>
-            <h1>Accueil</h1>
-            <div style={{ width: '500px' }}></div>
+            <h1 className="text-4xl">ACCUEIL</h1>
         </div>
     )
 }
